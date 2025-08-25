@@ -69,7 +69,7 @@ flutter run
 
 ### Diagram
 
-<img src="shem.png" width="300px">
+<img src="diagram.png" width="350px">
 
 Services:
 
