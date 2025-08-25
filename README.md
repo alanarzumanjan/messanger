@@ -56,17 +56,6 @@ cd messenger-app/backend
 docker-compose up --build
 ```
 
-### Diagram
-
-<img src="shem.png" width="300px">
-
-Services:
-
-- `api` → REST API
-- `ws` → WebSocket server
-- `db` → PostgreSQL
-- `redis` → Redis
-
 ---
 
 ### Frontend (Flutter)
@@ -77,6 +66,17 @@ cd messenger-app/frontend
 # Run in debug mode
 flutter run
 ```
+
+### Diagram
+
+<img src="shem.png" width="300px">
+
+Services:
+
+- `api` → REST API
+- `ws` → WebSocket server
+- `db` → PostgreSQL
+- `redis` → Redis
 
 ---
 
