@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"context"
@@ -15,21 +15,23 @@ var (
 	Ctx = context.Background()
 )
 
-func initDB() {
-	url := mustEnv("DATABASE_URL")
+func InitDB() {
+	url := MustEnv("DATABASE_URL")
 	pool, err := pgxpool.New(Ctx, url)
 	if err != nil {
 		log.Fatalf("db connect: %v", err)
 	}
 	DB = pool
-	if _, err := DB.Exec(Ctx, mustReadFile("schema.sql")); err != nil {
+
+	schema := mustReadSchema()
+	if _, err := DB.Exec(Ctx, schema); err != nil {
 		log.Fatalf("apply schema: %v", err)
 	}
 	log.Println("DB ready")
 }
 
-func initRedis() {
-	addr := mustEnv("REDIS_ADDR")
+func InitRedis() {
+	addr := MustEnv("REDIS_ADDR")
 	RDB = redis.NewClient(&redis.Options{Addr: addr})
 	if err := RDB.Ping(Ctx).Err(); err != nil {
 		log.Fatalf("redis ping: %v", err)
@@ -37,7 +39,7 @@ func initRedis() {
 	log.Println("Redis ready")
 }
 
-func mustEnv(k string) string {
+func MustEnv(k string) string {
 	v := os.Getenv(k)
 	if v == "" {
 		log.Fatalf("missing env %s", k)
@@ -45,10 +47,14 @@ func mustEnv(k string) string {
 	return v
 }
 
-func mustReadFile(path string) string {
-	b, err := os.ReadFile(path)
+func mustReadSchema() string {
+	// Сначала пробуем schema.sql, если нет — shema.sql
+	if b, err := os.ReadFile("schema.sql"); err == nil {
+		return string(b)
+	}
+	b, err := os.ReadFile("shema.sql")
 	if err != nil {
-		log.Fatalf("read %s: %v", path, err)
+		log.Fatalf("read schema: %v", err)
 	}
 	return string(b)
 }
