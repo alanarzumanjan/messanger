@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../core/config/theme.dart';
 import '../features/chat/data/chat_repository.dart';
 import '../features/chat/presentation/pages/chats_page.dart';
-import '../features/chat/presentation/pages/chats_page.dart';
+import '../features/chat/presentation/pages/chat_page.dart';
 import '../features/chat/presentation/state/chat_provider.dart';
 
 class AlanogramApp extends StatelessWidget {
